@@ -1,1 +1,1 @@
-// export * from './productController.ts';
+export * from './userController.ts';

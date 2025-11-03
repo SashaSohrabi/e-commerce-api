@@ -18,8 +18,8 @@
       "default": "./dist/controllers/index.js"
     },
     "#routers": {
-      "development": "./src/routes/index.ts",
-      "default": "./dist/routes/index.js"
+      "development": "./src/routers/index.ts",
+      "default": "./dist/routers/index.js"
     },
     "#schemas": {
       "development": "./src/schemas/index.ts",
