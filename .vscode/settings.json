@@ -1,0 +1,33 @@
+{
+  "workbench.colorTheme": "Cursor Dark Midnight",
+  "workbench.colorCustomizations": {
+    "[Dark Midnight]": {
+      "editor.foreground": "#ffffff"
+    }
+  },
+  "editor.tokenColorCustomizations": {
+    "[Dark Midnight]": {
+      "textMateRules": [
+        {
+          "scope": [
+            "source",
+            "variable",
+            "entity.name",
+            "meta.function-call",
+            "support.function",
+            "constant",
+            "meta.object-literal.key"
+          ],
+          "settings": {
+            "foreground": "#ffffff"
+          }
+        },
+        {
+          "scope": "comment",
+          "settings": { "foreground": "#e6e3e3" }
+        }
+      ]
+    }
+  },
+  "chatgpt.commentCodeLensEnabled": false
+}
