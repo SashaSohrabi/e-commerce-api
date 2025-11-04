@@ -1,5 +1,6 @@
 import { User } from '#models';
 import type { UserDTO, UserInputDTO } from '#schemas';
+import type { MessageResponse } from '#types';
 import type { RequestHandler } from 'express';
 
 export const createUser: RequestHandler<unknown, UserDTO, UserInputDTO> = async (req, res) => {
@@ -19,32 +20,43 @@ export const getUsers: RequestHandler<unknown, UserDTO[], unknown> = async (req,
   );
 };
 
-export const getUserById: RequestHandler<{ id: string }, UserDTO, unknown> = async (req, res) => {
+export const getUserById: RequestHandler<
+  { id: string },
+  UserDTO | MessageResponse,
+  unknown
+> = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id).select('-password');
   if (!user) {
-    return res.status(404).json({ id: id, name: '', email: '' } as UserDTO);
+    return res.status(404).json({ message: `No user with id: ${id} found!` });
   }
   res.status(200).json({ id: user._id.toString(), name: user.name, email: user.email });
 };
 
-export const updateUser: RequestHandler<{ id: string }, UserDTO, UserInputDTO> = async (
-  req,
-  res
-) => {
+export const updateUser: RequestHandler<
+  { id: string },
+  UserDTO | MessageResponse,
+  UserInputDTO
+> = async (req, res) => {
   const { id } = req.params;
   const { name, email, password } = req.body;
   const user = await User.findByIdAndUpdate(id, { name, email, password }, { new: true }).select(
     '-password'
   );
   if (!user) {
-    return res.status(404).json({ id: id, name: '', email: '' } as UserDTO);
+    return res.status(404).json({ message: `No user with id: ${id} found!` });
   }
   res.status(200).json({ id: user._id.toString(), name: user.name, email: user.email });
 };
 
-export const deleteUser: RequestHandler<{ id: string }, unknown, unknown> = async (req, res) => {
+export const deleteUser: RequestHandler<{ id: string }, MessageResponse, unknown> = async (
+  req,
+  res
+) => {
   const { id } = req.params;
-  await User.findByIdAndDelete(id);
+  const user = await User.findByIdAndDelete(id);
+  if (!user) {
+    return res.status(404).json({ message: `No user with id: ${id} found!` });
+  }
   res.status(200).json({ message: 'User deleted successfully' });
 };

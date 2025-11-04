@@ -27,3 +27,7 @@ export type OrderType = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type MessageResponse = {
+  message: string;
+};
