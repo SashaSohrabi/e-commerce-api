@@ -1,7 +1,7 @@
 import '#db';
 import express from 'express';
 import { errorHandler, notFoundHandler } from '#middleware';
-import { userRouter, categoryRouter } from '#routers';
+import { userRouter, categoryRouter, productRouter } from '#routers';
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 3000);
@@ -10,6 +10,7 @@ app.use(express.json());
 
 app.use('/users', userRouter);
 app.use('/categories', categoryRouter);
+app.use('/products', productRouter);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
