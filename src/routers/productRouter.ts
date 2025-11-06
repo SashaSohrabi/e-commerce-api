@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { validateBodyZod } from '#middleware';
-import { ProductInputSchema } from '#schemas';
+import { validateBodyZod, validateParamsZod } from '#middleware';
+import { ProductInputSchema, IdParamSchema } from '#schemas';
 
 import {
   getProducts,
@@ -13,9 +13,14 @@ import {
 const productRouter = Router();
 
 productRouter.get('/', getProducts);
-productRouter.get('/:id', getProductById);
+productRouter.get('/:id', validateParamsZod(IdParamSchema), getProductById);
 productRouter.post('/', validateBodyZod(ProductInputSchema), createProduct);
-productRouter.put('/:id', validateBodyZod(ProductInputSchema), updateProduct);
-productRouter.delete('/:id', deleteProduct);
+productRouter.put(
+  '/:id',
+  validateParamsZod(IdParamSchema),
+  validateBodyZod(ProductInputSchema),
+  updateProduct
+);
+productRouter.delete('/:id', validateParamsZod(IdParamSchema), deleteProduct);
 
 export default productRouter;

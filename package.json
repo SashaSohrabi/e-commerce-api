@@ -25,10 +25,6 @@
       "development": "./src/schemas/index.ts",
       "default": "./dist/schemas/index.js"
     },
-    "#types": {
-      "development": "./src/types/index.ts",
-      "default": "./dist/types/index.js"
-    },
     "#middleware": {
       "development": "./src/middleware/index.ts",
       "default": "./dist/middleware/index.js"

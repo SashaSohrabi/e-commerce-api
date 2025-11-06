@@ -1,4 +1,14 @@
 import { z } from 'zod';
+import { Types } from 'mongoose';
+
+const ObjectIdStringSchema = z
+  .string()
+  .regex(/^[0-9a-fA-F]{24}$/, { message: 'must be a 24 character hex string' })
+  .refine((val) => Types.ObjectId.isValid(val), { message: 'must be a valid ObjectId' });
+
+export const IdParamSchema = z.object({
+  id: ObjectIdStringSchema,
+});
 
 export const UserInputSchema = z
   .object({
@@ -30,11 +40,33 @@ export const ProductInputSchema = z
     name: z.string().min(3),
     description: z.string().max(100),
     price: z.number(),
-    categoryId: z
-      .string()
-      .regex(/^[0-9a-fA-F]{24}$/, { message: 'categoryId must be a 24 character hex string' }),
+    categoryId: ObjectIdStringSchema,
   })
   .strict();
 
 export type ProductInputDTO = z.infer<typeof ProductInputSchema>;
 export type ProductDTO = ProductInputDTO & { id: string };
+
+export const OrderInputSchema = z
+  .object({
+    userId: ObjectIdStringSchema,
+    products: z
+      .array(
+        z
+          .object({
+            productId: ObjectIdStringSchema,
+            quantity: z.number().int().positive(),
+          })
+          .strict()
+      )
+      .min(1),
+  })
+  .strict();
+
+export type OrderInputDTO = z.infer<typeof OrderInputSchema>;
+export type OrderDTO = OrderInputDTO & {
+  id: string;
+  total: number;
+  createdAt: string;
+  updatedAt: string;
+};

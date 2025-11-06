@@ -11,10 +11,6 @@ export const createProduct: RequestHandler<
 > = async (req, res) => {
   const { name, description, price, categoryId } = req.body;
 
-  if (!Types.ObjectId.isValid(categoryId)) {
-    return res.status(400).json({ message: 'categoryId must be a valid ObjectId' });
-  }
-
   const categoryObjectId = new Types.ObjectId(categoryId);
   const categoryExists = await Category.exists({ _id: categoryObjectId });
   
@@ -78,10 +74,6 @@ export const getProductById: RequestHandler<
 > = async (req, res) => {
   const { id } = req.params;
 
-  if (!Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ message: 'Id must be valid!' });
-  }
-
   const product = await Product.findById(id);
 
   if (!product) {
@@ -104,14 +96,6 @@ export const updateProduct: RequestHandler<
 > = async (req, res) => {
   const { id } = req.params;
   const { name, description, price, categoryId } = req.body;
-
-  if (!Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ message: 'Id must be valid!' });
-  }
-
-  if (!Types.ObjectId.isValid(categoryId)) {
-    return res.status(400).json({ message: 'categoryId must be a valid ObjectId!' });
-  }
 
   const categoryObjectId = new Types.ObjectId(categoryId);
   const categoryExists = await Category.exists({ _id: categoryObjectId });
@@ -149,10 +133,6 @@ export const deleteProduct: RequestHandler<{ id: string }, MessageResponse, unkn
   res
 ) => {
   const { id } = req.params;
-
-  if (!Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ message: 'Id must be a valid ObjectId' });
-  }
 
   const product = await Product.findByIdAndDelete(id);
 
