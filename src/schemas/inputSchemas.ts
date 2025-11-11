@@ -39,13 +39,14 @@ export const ProductInputSchema = z
   .object({
     name: z.string().min(3),
     description: z.string().max(100),
-    price: z.number(),
+    price: z.coerce.number(), // Multer leaves form-data scalars as strings, so coerce before validation
     categoryId: ObjectIdStringSchema,
+    image_url: z.array(z.url()).optional(),
   })
   .strict();
 
 export type ProductInputDTO = z.infer<typeof ProductInputSchema>;
-export type ProductDTO = ProductInputDTO & { id: string };
+export type ProductDTO = ProductInputDTO & { id: string; image_url?: string[] };
 
 export const OrderInputSchema = z
   .object({

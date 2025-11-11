@@ -11,6 +11,7 @@ export type ProductType = {
   description: string;
   price: number;
   categoryId: ObjectId;
+  image_url?: string[];
 };
 
 export type CategoryType = {
